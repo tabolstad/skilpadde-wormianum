@@ -1,0 +1,3 @@
+opt_in_rules:
+- multiline_parameters
+- multiline_parameters_brackets

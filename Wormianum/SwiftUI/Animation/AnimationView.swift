@@ -53,7 +53,6 @@ struct StrokingShapeView: View {
     }
 }
 
-
 struct PhaseAnimationView: View {
 
     @State var isOn = false
@@ -85,8 +84,9 @@ struct KeyframeAnimationView: View {
 
     @State var isOn = false
 
-    let off = KeyframeValue(opacity: 0.1, trim: 0)
+    // swiftlint:disable:next identifier_name
     let on = KeyframeValue(opacity: 1, trim: 1)
+    let off = KeyframeValue(opacity: 0.1, trim: 0)
 
     var body: some View {
         KeyframeAnimator(
@@ -145,6 +145,7 @@ struct ParticleModifier: ViewModifier {
                     Canvas { ctx, size in
                         if let heart = ctx.resolveSymbol(id: "particle") {
                             ctx.translateBy(x: size.width / 2, y: size.height / 2)
+                            // swiftlint:disable identifier_name
                             for p in particles {
                                 let time = elapsed - p.delay
                                 guard time > 0 else { continue }
@@ -153,6 +154,7 @@ struct ParticleModifier: ViewModifier {
                                 ctx.opacity = 1 - time / 5
                                 ctx.draw(heart, at: CGPoint(x: x, y: y))
                             }
+                            // swiftlint:enable identifier_name
                         }
                     } symbols: {
                         content.tag("particle")
