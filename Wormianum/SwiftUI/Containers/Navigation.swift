@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS 18.0, *)
 struct NavigationList<Content: View>: View {
 
     let content: Content

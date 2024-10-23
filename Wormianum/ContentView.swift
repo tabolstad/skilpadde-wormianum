@@ -24,7 +24,7 @@ struct CategoriesView: View {
         AnimationView()
             .destinationInfo("Animation")
         ContainersView()
-            .destinationInfo("Containers")
+            .destinationInfo("Containers", icon: "square")
     }
 }
 
