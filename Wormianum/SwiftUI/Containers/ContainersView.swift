@@ -22,7 +22,10 @@ struct ContainersView: View {
     @State var isOn = true
 
     var body: some View {
-        Text("containers")
+        NavigationList {
+            Text("containers")
+                .destinationInfo("Containers", icon: "person")
+        }
     }
 }
 
