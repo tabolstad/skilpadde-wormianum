@@ -16,15 +16,25 @@ import SwiftUI
 
 struct ThreeBoxDragView: View {
 
+    // swiftlint:disable line_length
+    let headerText = """
+    Drag views to arbitrary positions.\n\nUses a DragGesture with zero minimumDistance to replicate a Touch Down gesture.
+    """
+    // swiftlint:enable line_length
+
     var body: some View {
-        ZStack {
-            ForEach(0..<3) { index in
-                GeometryReader { geometry in
-                    SquareView(position: CGPoint(
-                        x: geometry.size.width * 0.5,
-                        y: geometry.size.height
-                        * (CGFloat(index + 1) / 4.0)
-                    ))
+        VStack {
+            Description(headerText)
+                .font(.title)
+            ZStack {
+                ForEach(0..<3) { index in
+                    GeometryReader { geometry in
+                        SquareView(position: CGPoint(
+                            x: geometry.size.width * 0.5,
+                            y: geometry.size.height
+                            * (CGFloat(index + 1) / 4.0)
+                        ))
+                    }
                 }
             }
         }

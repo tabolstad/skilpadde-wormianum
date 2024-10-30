@@ -22,9 +22,28 @@ struct ContentView: View {
 struct CategoriesView: View {
     var body: some View {
         AnimationView()
-            .destinationInfo("Animation")
+            .destinationInfo("Animation", icon: "figure.run.square.stack")
         ContainersView()
-            .destinationInfo("Containers", icon: "square")
+            .destinationInfo("Containers", icon: "shippingbox.fill")
+        VisualEffectsView()
+            .destinationInfo("Visual Effects", icon: "bubbles.and.sparkles.fill")
+    }
+}
+
+struct Description: View {
+
+    let text: String
+
+    init(_ text: String) {
+        self.text = text
+    }
+
+    var body: some View {
+        Text(text)
+            .font(.title)
+            .padding()
+            .background(Color.green.opacity(0.2))
+            .cornerRadius(10)
     }
 }
 

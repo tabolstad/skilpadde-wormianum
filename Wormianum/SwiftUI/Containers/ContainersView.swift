@@ -22,8 +22,8 @@ import SwiftUI
 
 struct Song: Hashable {
     enum SongType: String {
-        case left
-        case right
+        case top
+        case bottom
     }
 
     let title: String
@@ -33,35 +33,47 @@ struct Song: Hashable {
 struct ContainersView: View {
 
     static var Songs4: [Song] = ["Hello", "World", "SwiftUI", "Is"].map {
-        Song(title: $0, type: .left)
+        Song(title: $0, type: .top)
     }
     static var Songs5: [Song] = ["Hello", "World", "SwiftUI", "Is", "Awesome"].map {
-        Song(title: $0, type: .right)
+        Song(title: $0, type: .bottom)
     }
 
+    // swiftlint:disable trailing_whitespace
+    let headerText = """
+    Custom layout using container views.
+    
+    Uses Group(subviews) and ForEach(subview) to manpulate a collection of subviews.
+    """
+    // swiftlint:enable trailing_whitespace
+
     var body: some View {
-        DisplayBoard {
-            Section(
-                content: {
-                    ForEach(ContainersView.Songs4, id: \.self) { song in
-                        Text(song.title)
+        VStack {
+            Description(headerText)
+                .font(.title2)
+            DisplayBoard {
+                Section(
+                    content: {
+                        ForEach(ContainersView.Songs4, id: \.self) { song in
+                            Text(song.title)
+                        }
+                    },
+                    header: {
+                        Text("Top Views")
                     }
-                },
-                header: {
-                    Text("Top Views")
-                }
-            )
-            Section(
-                content: {
-                    ForEach(ContainersView.Songs5, id: \.self) { song in
-                        Text(song.title)
-                            .cardIsSelected(true)
+                )
+                Section(
+                    content: {
+                        ForEach(ContainersView.Songs5, id: \.self) { song in
+                            Text(song.title)
+                                .cardIsSelected(true)
+                        }
+                    },
+                    header: {
+                        Text("Bottom Views")
                     }
-                },
-                header: {
-                    Text("Bottom Views")
-                }
-            )
+                )
+            }
         }
     }
 }
@@ -76,6 +88,7 @@ struct DisplayBoardLayout: Layout {
         func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout Void) {
             // calculate the radius of our bounds
             let radius = min(bounds.size.width, bounds.size.height) / 2
+            let yOffset = 0.1 * radius
 
             // figure out the angle between each subview on our circle
             let angle = Angle.degrees(360 / Double(subviews.count)).radians
@@ -85,8 +98,8 @@ struct DisplayBoardLayout: Layout {
                 let viewSize = subview.sizeThatFits(.unspecified)
 
                 // calculate the X and Y position so this view lies inside our circle's edge
-                let xPos = cos(angle * Double(index) - .pi / 2) * (radius - viewSize.width / 2)
-                let yPos = sin(angle * Double(index) - .pi / 2) * (radius - viewSize.height / 2)
+                let xPos = cos(angle * Double(index) - .pi / 2) * (radius)
+                let yPos = sin(angle * Double(index) - .pi / 2) * (radius - viewSize.height / 2 - yOffset)
 
                 // position this view relative to our centre, using its natural size ("unspecified")
                 let point = CGPoint(x: bounds.midX + xPos, y: bounds.midY + yPos)
@@ -100,7 +113,7 @@ struct DisplayBoard<Content: View>: View {
     @ViewBuilder var content: Content
 
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 5) {
             ForEach(sections: content) { section in
                 VStack(spacing: 10) {
                     if !section.header.isEmpty {
@@ -179,7 +192,7 @@ struct CardView<Content: View>: View {
         case .small:
             10
         case .large:
-            100
+            50
         }
     }
 }
@@ -195,27 +208,5 @@ private extension View {
 }
 
 #Preview {
-    DisplayBoard {
-        Section(
-            content: {
-                ForEach(ContainersView.Songs4, id: \.self) { song in
-                    Text(song.title)
-                }
-            },
-            header: {
-                Text("Top Views")
-            }
-        )
-        Section(
-            content: {
-                ForEach(ContainersView.Songs5, id: \.self) { song in
-                    Text(song.title)
-                        .cardIsSelected(true)
-                }
-            },
-            header: {
-                Text("Bottom Views")
-            }
-        )
-    }
+    ContainersView()
 }

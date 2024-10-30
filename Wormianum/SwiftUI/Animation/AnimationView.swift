@@ -21,6 +21,7 @@ struct AnimationView: View {
 
     var body: some View {
         VStack {
+            Description("Assorted shape animations. Tap to activate.")
             VStack {
                 StrokingShapeView()
                 PhaseAnimationView()
@@ -29,7 +30,7 @@ struct AnimationView: View {
             TimelineAnimationView()
                 .frame(height: 300)
         }
-        .padding()
+        .padding([.top, .leading, .trailing])
     }
 }
 
