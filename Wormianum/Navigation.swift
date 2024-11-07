@@ -17,6 +17,8 @@ struct NavigationList<Content: View>: View {
     }
 
     var body: some View {
+
+        
         List {
             Group(subviews: content) {  destinations in
                 ForEach(destinations) { item in
